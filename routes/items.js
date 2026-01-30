@@ -1,9 +1,10 @@
 const express = require("express");
 const mongoose = require("mongoose");
-const Item = require("../models/item");
+const Item = require("../models/Item");
 
 const router = express.Router();
 
+// GET /api/items
 router.get("/", async (req, res) => {
   try {
     const items = await Item.find().sort({ createdAt: -1 });
@@ -13,6 +14,7 @@ router.get("/", async (req, res) => {
   }
 });
 
+// GET /api/items/:id
 router.get("/:id", async (req, res) => {
   const { id } = req.params;
 
@@ -29,6 +31,7 @@ router.get("/:id", async (req, res) => {
   }
 });
 
+// POST /api/items
 router.post("/", async (req, res) => {
   const { name, price, category } = req.body;
 
@@ -44,6 +47,7 @@ router.post("/", async (req, res) => {
   }
 });
 
+// PUT /api/items/:id
 router.put("/:id", async (req, res) => {
   const { id } = req.params;
 
@@ -65,6 +69,7 @@ router.put("/:id", async (req, res) => {
   }
 });
 
+// DELETE /api/items/:id
 router.delete("/:id", async (req, res) => {
   const { id } = req.params;
 

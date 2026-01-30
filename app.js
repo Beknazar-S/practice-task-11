@@ -8,15 +8,22 @@ const itemsRouter = require("./routes/items");
 const app = express();
 app.use(express.json());
 
-// Health / root endpoint
+// PT11 root endpoint
 app.get("/", (req, res) => {
   res.json({ ok: true, message: "API is running" });
 });
 
-// API routes
+// PT12 Option A: version endpoint
+app.get("/version", (req, res) => {
+  res.json({
+    version: "1.1",
+    updatedAt: "2026-01-30"
+  });
+});
+
+// CRUD routes
 app.use("/api/items", itemsRouter);
 
-// Start only after DB connect
 async function start() {
   const PORT = process.env.PORT || 3000;
   const MONGO_URI = process.env.MONGO_URI;
@@ -30,9 +37,7 @@ async function start() {
     await mongoose.connect(MONGO_URI);
     console.log("MongoDB connected");
 
-    app.listen(PORT, () => {
-      console.log(`Server running on port ${PORT}`);
-    });
+    app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
   } catch (err) {
     console.error("MongoDB connection error:", err.message);
     process.exit(1);
